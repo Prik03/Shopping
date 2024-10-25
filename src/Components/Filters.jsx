@@ -1,7 +1,9 @@
 // Filters.js
 import React from "react";
 
-const Filters = ({ categories, onFilterChange, price, onPriceChange }) => {
+const categories = ["beauty", "fragrances", "furniture", "groceries"];
+
+const Filters = ({ onFilterChange, price, onPriceChange }) => {
   const handleCategorySelect = (e) => {
     onFilterChange(e.target.value);
   };
@@ -12,21 +14,24 @@ const Filters = ({ categories, onFilterChange, price, onPriceChange }) => {
 
   return (
     <div className="flex p-4">
-      <div className="flex p-2 border-2 bg-white-30 border-black rounded-lg overflow-hidden">
+      <div className="flex p-2 bg-slate-200 shadow rounded-lg overflow-hidden">
         <select
           onChange={handleCategorySelect}
           className="outline-none bg-transparent"
         >
           <option value="">-Select Categories</option>
-          {categories.map((category) => (
-            <option key={category} value={category}>
+          {categories.map((category, index) => (
+            <option key={index} value={category}>
               {category}
             </option>
           ))}
         </select>
       </div>
-      <div className="ml-4 flex p-2 border-2 border-black rounded-lg overflow-hidden">
-        <select onChange={handlePriceSelect} className="outline-none">
+      <div className="ml-4 flex p-2 bg-slate-200 shadow rounded-lg overflow-hidden">
+        <select
+          onChange={handlePriceSelect}
+          className="outline-none bg-transparent"
+        >
           <option value="">Select Range</option>
           {price.map((price) => (
             <option

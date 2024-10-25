@@ -3,21 +3,17 @@ import { useCart } from "../context/CartContext";
 import { IoIosClose } from "react-icons/io";
 import { MdDeleteOutline } from "react-icons/md";
 import { Link } from "react-router-dom";
-import { FaPlus } from "react-icons/fa";
-import { FaMinus } from "react-icons/fa";
-import { useState } from "react";
+import { IoCartOutline } from "react-icons/io5";
 
 const CartDrawer = ({ cartd, setCartDrawer }) => {
   const { cartItems, removeFromCart, calculateTotal } = useCart();
-  // const [Quantity, setQuantity] = useState(1);
 
-  console.log(cartItems.quantity);
   return (
     <div
       className={
         cartd
           ? cartd
-          : "fixed h-full right-0 top-0 w-full sm:w-1/3 bg-white shadow-lg p-4 overflow-y-auto translate-x-full transition-transform"
+          : "fixed h-full right-0 top-0 w-full sm:w-1/3 scrollbar-hide bg-white shadow-lg p-4 overflow-auto translate-x-full transition-transform"
       }
     >
       <div className="flex justify-between items-center mb-4">
@@ -46,16 +42,11 @@ const CartDrawer = ({ cartd, setCartDrawer }) => {
 
             <div className="w-full ml-4">
               <span className="block font-semibold text-sm">{item.title}</span>
-              <span className="block text-gray-400 text-xs">
-                {/* <div className="flex items-center">
-                  Qty:{" "}
-                  <FaMinus
-                    className="ml-2"
-                    onClick={() => setQuantity(Quantity - 1)}
-                  />
-                  <span className="text-bold">{Quantity}</span>{" "}
-                  <FaPlus onClick={() => setQuantity(Quantity + 1)} />
-                </div> */}
+              <span>
+                <button onClick={() => console.log(item.quantity + 1)}>
+                  increae
+                </button>
+                {item.quantity}
               </span>
             </div>
 
@@ -73,18 +64,32 @@ const CartDrawer = ({ cartd, setCartDrawer }) => {
           </div>
         ))
       )}
-      {cartItems.length > 0 && (
-        <div>
-          <h3>Total : {calculateTotal()}</h3>
+
+      <div className="fixed w-full sm:w-1/3 bottom-0 bg-white p-6 rounded-lg shadow-md">
+        <div className="flex justify-between items-center border-b pb-4 mb-4">
+          <p className="text-gray-700 font-medium">{cartItems.length} item</p>
+          <div className="flex items-center text-right">
+            <p className="text-sm text-gray-500 mr-2">Subtotal:</p>
+            <p className="text-xl font-semibold text-teal-600">
+              $ {calculateTotal()}
+            </p>
+          </div>
         </div>
-      )}
-      {cartItems.length > 0 && (
-        <div className="fixed bottom-0 w-full sm:w-1/3 bg-white p-4 shadow-md ">
-          <button className=" w-full bg-black text-white p-4 text-xl font-bold hover:bg-gray-800 transition rounded">
-            <Link to="/Cart"> Go to Cart Page</Link>
+        <div className="flex space-x-4">
+          <Link to="/Cart">
+            <button className="bg-black sm:w-100 w-full text-white py-2 px-2 rounded-md flex items-center space-x-4 hover:bg-gray-800">
+              <IoCartOutline />
+              <span>Continue to Cart</span>
+            </button>
+          </Link>
+          <button
+            onClick={() => setCartDrawer(null)}
+            className="border sm:w-100 w-1/2 border-gray-400 text-gray-700 py-2 px-2 rounded-md hover:bg-gray-100"
+          >
+            Continue Shopping
           </button>
         </div>
-      )}
+      </div>
     </div>
   );
 };

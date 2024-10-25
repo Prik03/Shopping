@@ -9,19 +9,18 @@ import axios from "axios";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Cart from "./Components/Cart";
 import price from "./price";
-import ProductCardSkeleton from "./Components/ProductCardSkeleton";
+import CartButton from "./Components/CartButton";
 
 const App = () => {
   const [products, setProducts] = useState([]);
-  const [categories, setCategories] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [cartDrawer, setCartDrawer] = useState();
   const { addToCart } = useCart();
-  const [isLoading, setisLoading] = useState(false);
+  const [isLoading, setisLoading] = useState(true);
 
   const handleClass = () => {
     setCartDrawer(
-      "fixed h-full right-0 top-0 w-full sm:w-1/3 bg-white shadow-lg p-4  transition-transform"
+      "fixed h-full right-0 top-0 w-full sm:w-1/3 bg-white shadow-lg p-4 overflow-y-auto scrollbar-hide transition-transform"
     );
   };
 
@@ -29,31 +28,21 @@ const App = () => {
     const fetchProducts = async () => {
       try {
         const result = await axios.get("https://dummyjson.com/products");
-        setisLoading(true);
-        setProducts(result.data.products);
 
-        setFilteredProducts(result.data.products); // Initialize filtered products
+        const updatedCartItems = result.data.products?.map((item) => ({
+          ...item,
+          quantity: 1,
+        }));
+
+        setProducts(updatedCartItems);
+        setFilteredProducts(updatedCartItems);
+        setisLoading(false);
       } catch (err) {
         console.log(err);
       }
     };
 
     fetchProducts();
-  }, []);
-
-  useEffect(() => {
-    const fetchCategories = async () => {
-      try {
-        const result = await axios.get(
-          "https://dummyjson.com/products/category-list"
-        );
-        setCategories(result.data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
-    fetchCategories();
   }, []);
 
   const handleSearch = (query) => {
@@ -90,22 +79,24 @@ const App = () => {
 
   return (
     <div>
-      <Header onSearch={handleSearch} handleClass={handleClass} />
+      <Header
+        onSearch={handleSearch}
+        handleClass={handleClass}
+        cartbutton={<CartButton handleClass={handleClass} />}
+      />
       <Filters
         price={price}
-        categories={categories}
-        onFilterChange={handleCategoryChange} // Pass the filter logic
+        onFilterChange={handleCategoryChange}
         onPriceChange={handlePriceChange}
       />
 
       <ProductGrid
-        loading={setisLoading}
+        loading={isLoading}
         products={filteredProducts}
         onAddToCart={addToCart}
       />
 
       <CartDrawer cartd={cartDrawer} setCartDrawer={setCartDrawer} />
-      {/* Pass a function to close the cart drawer */}
     </div>
   );
 };
