@@ -40,7 +40,6 @@ const App = () => {
 
     fetchProducts();
   }, []);
-  console.log(isLoading);
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -83,7 +82,6 @@ const App = () => {
         );
       });
 
-      console.log(filtered);
       setFilteredProducts(filtered);
     } else {
       setFilteredProducts(products);
