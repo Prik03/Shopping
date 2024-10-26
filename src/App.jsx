@@ -10,6 +10,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Cart from "./Components/Cart";
 import price from "./price";
 import CartButton from "./Components/CartButton";
+import SearchBar from "./Components/SearchBar";
 
 const App = () => {
   const [products, setProducts] = useState([]);
@@ -17,6 +18,7 @@ const App = () => {
   const [cartDrawer, setCartDrawer] = useState();
   const { addToCart } = useCart();
   const [isLoading, setisLoading] = useState(true);
+  const [query, setQuery] = useState("");
 
   const handleClass = () => {
     setCartDrawer(
@@ -32,6 +34,7 @@ const App = () => {
         const updatedCartItems = result.data.products?.map((item) => ({
           ...item,
           quantity: 1,
+          // price: parseInt(item.price),
         }));
 
         setProducts(updatedCartItems);
@@ -83,6 +86,7 @@ const App = () => {
         onSearch={handleSearch}
         handleClass={handleClass}
         cartbutton={<CartButton handleClass={handleClass} />}
+        search={<SearchBar handleSearch={handleSearch} query={query} />}
       />
       <Filters
         price={price}

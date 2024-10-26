@@ -1,4 +1,3 @@
-// ProductCard.js
 import ProductCardSkeleton from "./ProductCardSkeleton";
 const ProductCard = ({ product, onAddToCart, loadings }) => {
   return (

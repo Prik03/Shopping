@@ -3,9 +3,16 @@ import { useCart } from "../context/CartContext";
 import { Link } from "react-router-dom";
 import { MdDeleteOutline } from "react-icons/md";
 import Header from "./Header";
+import { FiPlus, FiMinus } from "react-icons/fi";
 
 const Cart = () => {
-  const { cartItems, removeFromCart, calculateTotal } = useCart();
+  const {
+    cartItems,
+    removeFromCart,
+    calculateTotal,
+    decreaseQuantity,
+    increaseQuantity,
+  } = useCart();
 
   return (
     <>
@@ -26,12 +33,18 @@ const Cart = () => {
                 />
                 <div>
                   <h2 className="text-lg font-semibold">{item.title}</h2>
-                  <p className="text-gray-500">{item.description}</p>
+                  <span className="flex items-center bg-whitesmoke-100 mt-2 shadow rounded w-fit">
+                    <FiMinus onClick={() => decreaseQuantity(item.id)} />
+                    {item.quantity}
+
+                    <FiPlus onClick={() => increaseQuantity(item.id)} />
+                  </span>
                 </div>
               </div>
               <div className="flex items-center space-x-4">
                 <p className="text-lg font-semibold">
-                  ${item.price.toFixed(2)}
+                  {" "}
+                  ${item.TotalPrice ? item.TotalPrice : item.price}
                 </p>
                 <button
                   onClick={() => removeFromCart(item.id)}
@@ -43,13 +56,10 @@ const Cart = () => {
             </div>
           ))}
 
-          {/* Order Summary */}
           <div className="mt-6 border-t pt-4">
             <div className="flex justify-between mb-2">
               <span className="text-lg font-semibold">Subtotal</span>
-              <span className="text-lg font-semibold">
-                ${calculateTotal().toFixed(2)}
-              </span>
+              <span className="text-lg font-semibold">${calculateTotal()}</span>
             </div>
             <div className="flex justify-between mb-2">
               <span className="text-lg font-semibold">Tax</span>
@@ -61,7 +71,7 @@ const Cart = () => {
             </div>
             <div className="flex justify-between text-xl font-semibold">
               <span>Total</span>
-              <span>${(calculateTotal() + 10).toFixed(2)}</span>
+              <span>${calculateTotal() + 10}</span>
             </div>
           </div>
 

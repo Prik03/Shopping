@@ -9,7 +9,7 @@ const Filters = ({ onFilterChange, price, onPriceChange }) => {
   };
 
   const handlePriceSelect = (e) => {
-    onPriceChange(JSON.parse(e.target.value)); // Parse the JSON string from the dropdown value
+    onPriceChange(JSON.parse(e.target.value));
   };
 
   return (

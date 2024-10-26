@@ -1,6 +1,4 @@
-// ProductGrid.js
 import ProductCard from "./ProductCard";
-// import { useCart } from "../context/CartContext";
 
 const ProductGrid = ({ products, onAddToCart, loading }) => {
   return (
