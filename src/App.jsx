@@ -29,6 +29,7 @@ const App = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
+        setisLoading(true);
         const result = await axios.get("https://dummyjson.com/products");
 
         const updatedCartItems = result.data.products?.map((item) => ({
@@ -38,8 +39,8 @@ const App = () => {
         }));
 
         setProducts(updatedCartItems);
-        setFilteredProducts(updatedCartItems);
         setisLoading(false);
+        setFilteredProducts(updatedCartItems);
       } catch (err) {
         console.log(err);
       }

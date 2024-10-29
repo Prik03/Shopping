@@ -1,8 +1,6 @@
-import ProductCardSkeleton from "./ProductCardSkeleton";
-const ProductCard = ({ product, onAddToCart, loadings }) => {
+const ProductCard = ({ product, onAddToCart }) => {
   return (
     <>
-      {loadings && <ProductCardSkeleton />}
       <div className="border p-4 rounded shadow">
         <img src={product.images} alt="" />
         <h3 className="font-bold">{product.title}</h3>
